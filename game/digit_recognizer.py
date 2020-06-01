@@ -4,7 +4,7 @@ import pygame as pg
 import sys
 import torch
 import numpy as np
-
+WIDTH = HEIGHT = 680
 class Game:
 
     def __init__(self, width, height):
@@ -13,7 +13,7 @@ class Game:
         self.H = height
         self.screen = pg.display.set_mode((self.W, self.H))
         self.running = True
-        self.scl = 20
+        self.scl = 40
         self.cols = self.W//self.scl
         self.rows = self.H//self.scl
         self.grid = [[0 for i in range(self.cols)] for j in range(self.rows)]
@@ -43,7 +43,7 @@ class Game:
                 if self.grid[r][c] == 255:
                     pg.draw.rect(self.screen, 0, (c * self.scl, r * self.scl, self.scl, self.scl ))
     def reset(self):
-        self.__init__(560, 560)
+        self.__init__(self.W, self.H)
     
     def run(self):
         while self.running:
@@ -54,7 +54,7 @@ class Game:
                     if event.key == pg.K_RETURN:
                         self.img = self.ip.process_image(np.array(self.grid))
                         out = self.model(torch.tensor(self.img)).detach().numpy()
-                        print(np.argmax(out))
+                        print(f'Prediction: {np.argmax(out)}')
                         self.reset()
             self.screen.fill((255,255,255))
             self.draw_grid()
@@ -62,5 +62,5 @@ class Game:
             pg.display.flip()
 
 if __name__ == "__main__":
-    game = Game(560,560)
+    game = Game(WIDTH,HEIGHT)
     game.run()
