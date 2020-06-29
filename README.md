@@ -6,4 +6,4 @@ This project is still WIP, but the basic functionalities are working.
 use the `digit_recognizer.py` as entrypoint.
 
 
-*this model has achieved a score of 0.99557 on the kaggle Digit Recognizer challenge*
+*this model has achieved a score of 0.99675 on the kaggle Digit Recognizer challenge*
