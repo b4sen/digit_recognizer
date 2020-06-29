@@ -37,4 +37,4 @@ for epoch in range(100):
     print(f'\ttrain loss: {mn_loss:0.3f} +- {sdev:0.3f}')
     print(f'\tval acc: {str(acc)}')
 
-torch.save(net.state_dict(), 'trained_model_2.pt')
+torch.save(net.state_dict(), 'trained_model_3.pt')
