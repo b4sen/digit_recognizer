@@ -18,7 +18,7 @@ class Game:
         self.rows = self.H//self.scl
         self.grid = [[0 for i in range(self.cols)] for j in range(self.rows)]
         self.ip = ImageProcessor()
-        self.model = ModelLoader('model/trained_model.pt').load_model()
+        self.model = ModelLoader('model/trained_model_2.pt').load_model()
 
     def draw_grid(self):
         black = 0, 0, 0
