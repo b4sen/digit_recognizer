@@ -12,8 +12,9 @@ class Net(nn.Module):
 		self.conv2 = nn.Conv2d(32, 32, 3)
 		self.conv3 = nn.Conv2d(32, 64, 3)
 		self.conv4 = nn.Conv2d(64, 128, 3)
+		self.conv5 = nn.Conv2d(128,256,3)
 		self.pool = nn.MaxPool2d(2,2)
-		self.fc1 = nn.Linear(128*4*4, 128)
+		self.fc1 = nn.Linear(256, 128)
 		self.fc2 = nn.Linear(128, 64)
 		self.fc3 = nn.Linear(64, 10)
 
@@ -24,8 +25,9 @@ class Net(nn.Module):
 		x = self.conv3(x)
 		x = F.relu(self.conv4(x))
 		x = self.pool(x)
-		#print(x.shape)
-		x = x.view(-1, 128*4*4)
+		x = F.relu(self.conv5(x))
+		x = self.pool(x)
+		x = x.view(-1, 256)
 		x = F.relu(self.fc1(x))
 		x = F.relu(self.fc2(x))
 		x = self.fc3(x)
@@ -59,8 +61,8 @@ class CnnClassifier:
 
 	def predict(self, data: np.ndarray) -> np.ndarray:
 		self.net.eval()
-		data_t = torch.tensor(data).to(self.device)
+		data_t = torch.tensor(data).unsqueeze(1).to(self.device)
 		softmax = torch.nn.Softmax(dim=1)
 		pred = softmax(self.net(data_t))
 		
-		return pred.detach().numpy()
+		return pred.detach().cpu().numpy()
